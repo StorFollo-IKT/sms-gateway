@@ -1,0 +1,4 @@
+pyserial
+django
+python-gsmmodem-new
+requests
