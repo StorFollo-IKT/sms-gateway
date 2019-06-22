@@ -25,7 +25,6 @@ DEBUG = False
 INSTALLED_APPS = [
     'messaging.apps.MessagingConfig',
     'gsm_modem.apps.GsmModemConfig',
-    'temperature_alert.apps.TemperatureAlertConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
