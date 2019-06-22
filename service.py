@@ -6,7 +6,9 @@ from SMWinservice import SMWinservice
 import django
 
 django.setup()
+from django.conf import settings
 from gsm_modem.modem_loop import ModemLoop
+# TODO: Write exceptions to event log?
 
 
 class GsmModemGatewayService(SMWinservice):
@@ -21,7 +23,8 @@ class GsmModemGatewayService(SMWinservice):
         self.modem.loop()
 
     def start(self):
-        self.modem = ModemLoop('COM20')
+        self.modem = ModemLoop(settings.GSM_MODEM_PORT,
+                               settings.GSM_MODEM_BAUD_RATE)
         self.modem.running = True
 
     def stop(self):

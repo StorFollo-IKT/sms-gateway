@@ -23,3 +23,6 @@ DEBUG = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GSM_MODEM_PORT = 'COM1'
+GSM_MODEM_BAUD_RATE = 115200
