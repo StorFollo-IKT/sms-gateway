@@ -191,7 +191,7 @@ class SmsAt:
     def send(self, message, number):
         if not self.pdu_mode:
             self.set_pdu_mode(enabled=True)
-        pdu_messages = encodeSmsSubmitPdu(number, message)
+        pdu_messages = encodeSmsSubmitPdu(number, message, requestStatusReport=False)
         part = 1
         for pdu in pdu_messages:
             print('Part %d' % part)
