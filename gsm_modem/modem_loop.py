@@ -52,7 +52,13 @@ class ModemLoop:
 
             if sms.ser.in_waiting > 0:
                 time.sleep(1)
-                data = sms.read().decode('ascii').strip()
+                data_temp = sms.read()
+                try:
+                    data = data_temp.decode('ascii').strip()
+                except UnicodeDecodeError:
+                    print('Unable to decode: ', data_temp)
+                    continue
+
                 if data[0:5] == '+CMTI':
                     info = sms.CMTI_REGEX.match(data)
                     print('Message received')
