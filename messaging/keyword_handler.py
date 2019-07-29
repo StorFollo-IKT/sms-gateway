@@ -31,8 +31,9 @@ def handle(message):
                                     'argument': parsed.group(2),
                                     'sender': message.sender()}
                               )
-            # TODO: Check HTTP return code
-            print(r)
+            if not r.status_code == requests.codes.ok:
+                raise ValueError('Invalid HTTP response')
+
             print('HTTP text: ', r.text)
             return r.text
         except requests.exceptions.ConnectionError:
