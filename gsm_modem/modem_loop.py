@@ -56,14 +56,7 @@ class ModemLoop:
                     if not message:
                         print('Empty message')
                         continue
-                    try:
-                        response_text = handle(message)
-                        if response_text:
-                            sms.send(response_text, message.sender()[1:])
-                            print('Send response message %s to %s' % (response_text, message.sender()[1:]))
-                    except ValueError as e:
-                        print('Error sending response to received message: %s' % e)
-                        pass
+                    self.handle_message(message)
                 elif data[0:4] == 'RING':
                     print('Rejecting call')
                     # sms.ser.write(b'ATH\r')
