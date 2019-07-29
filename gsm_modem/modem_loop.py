@@ -13,6 +13,11 @@ class ModemLoop:
         self.sms = SmsAt(port, baudrate)
 
     def handle_message(self, message):
+        """
+        Handle received message
+        :param Message message: Message object
+        :return:
+        """
         msg_log = ReceivedMessage(text=message.body(),
                                   smsc=message.message['smsc'],
                                   sender=message.sender(),
@@ -22,13 +27,13 @@ class ModemLoop:
         try:
             response_text = handle(message)
             if response_text:
-                print('Response: ', response_text)
+                print('Send response message %s to %s' % (response_text, message.sender()[1:]))
                 self.sms.send(response_text, message.sender())
                 msg_log.response_text = response_text
                 msg_log.save()
             self.sms.delete_message(message.index)
         except ValueError as e:
-            print(e)
+            print('Error sending response to received message: %s' % e)
 
     def loop(self):
         sms = self.sms
