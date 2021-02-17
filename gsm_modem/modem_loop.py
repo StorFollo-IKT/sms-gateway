@@ -23,7 +23,24 @@ class ModemLoop:
                                   sender=message.sender(),
                                   time=message.time().replace(tzinfo=None))
         message.log_msg = msg_log
-        msg_log.save()
+        try:
+            msg_log.save()
+        except:
+            self.sms.delete_message(message.index)
+            self.sms.write('ATZ')  # Soft reset the modem
+            message.time()
+            file = 'invalid_message_%s.txt' % \
+                   message.message['time'].strftime('%Y-%m-%d %H%M%S')
+            fp = open(file, 'wb')
+            fp.write(message.body().encode(errors='backslashreplace'))
+            fp.close()
+            try:
+                msg_log.text = file
+                msg_log.save()
+            except UnicodeEncodeError:
+                pass
+            return
+
         try:
             response_text = handle(message)
             if response_text:
