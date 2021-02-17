@@ -18,7 +18,12 @@ class ModemLoop:
         :param Message message: Message object
         :return:
         """
-        msg_log = ReceivedMessage(text=message.body(),
+        try:
+            body = message.body()
+        except UnicodeEncodeError as e:
+            body = str(e)
+
+        msg_log = ReceivedMessage(text=body,
                                   smsc=message.message['smsc'],
                                   sender=message.sender(),
                                   time=message.time().replace(tzinfo=None))
